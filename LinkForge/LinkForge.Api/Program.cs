@@ -6,6 +6,16 @@ using UrlShortener.LinkForge.LinkForge.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AngularClient", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 // Register the database context.
 builder.Services.AddDbContext<LinkForgeDbContext>(options =>
     options.UseSqlServer(
@@ -23,7 +33,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AngularClient");
 app.UseHttpsRedirection();
 
 // Health check.

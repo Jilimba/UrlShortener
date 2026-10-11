@@ -1,0 +1,85 @@
+
+<div class="page-shell">
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="LinkForge home">
+      <span class="brand-icon">L</span>
+      <span>LinkForge</span>
+    </a>
+    <span class="status"><span class="status-dot"></span> Simple. Fast. Shareable.</span>
+  </header>
+
+  <main class="hero">
+    <div class="eyebrow"><span>✦</span> YOUR LINKS, REIMAGINED</div>
+
+    <h1>Long links.<br /><span>Short story.</span></h1>
+
+    <p class="intro">
+      Turn long, messy URLs into clean, shareable links in seconds.
+      Less clutter, more connection.
+    </p>
+
+    <form class="shortener-card" (ngSubmit)="shortenUrl()">
+      <label for="originalUrl">Paste your long URL</label>
+
+      <div class="input-row">
+        <span class="link-symbol">↗</span>
+        <input
+          id="originalUrl"
+          name="originalUrl"
+          type="url"
+          [(ngModel)]="originalUrl"
+          placeholder="https://example.com/your-very-long-link"
+          autocomplete="url"
+          [disabled]="loading"
+          required
+        />
+      </div>
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Creating your link...' : 'Shorten URL' }}
+        <span aria-hidden="true">→</span>
+      </button>
+
+      @if (errorMessage) {
+        <p class="error-message" role="alert">{{ errorMessage }}</p>
+      }
+
+      @if (result) {
+        <div class="result-panel" aria-live="polite">
+          <div class="result-heading">
+            <span class="success-icon">✓</span>
+            <span>Your link is ready!</span>
+          </div>
+
+          <div class="result-row">
+            <a [href]="result.shortUrl" target="_blank" rel="noopener noreferrer">
+              {{ result.shortUrl }}
+            </a>
+            <button
+              type="button"
+              class="copy-button"
+              (click)="copyLink()"
+            >
+              {{ copied ? 'Copied ✓' : 'Copy link' }}
+            </button>
+          </div>
+
+          <p class="original-url">
+            Original: {{ result.originalUrl }}
+          </p>
+        </div>
+      }
+    </form>
+
+    <div class="features">
+      <div><span>↗</span> Easy sharing</div>
+      <div><span>⚡</span> Quick creation</div>
+      <div><span>◇</span> Clean links</div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span>LinkForge</span>
+    <span>Make every character count.</span>
+  </footer>
+</div>
